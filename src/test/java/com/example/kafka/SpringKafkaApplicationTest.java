@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class SpringKafkaApplicationTest {
 
     private static final String HELLOWORLD_TOPIC = "helloworld.t";
 
-    public static KafkaEmbedded embeddedKafka =
-        new KafkaEmbedded(1, true, HELLOWORLD_TOPIC);
+//    @ClassRule
+//    public static KafkaEmbedded embeddedKafka =
+//        new KafkaEmbedded(1, true, HELLOWORLD_TOPIC);
 
     @Autowired
     private Receiver receiver;
