@@ -3,6 +3,8 @@ package com.example.kafka.producer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.kafka.serializer.OrderSerializer;
+import com.protobuf.order.OrderProto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,18 +29,18 @@ public class SenderConfig {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
             StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-            StringSerializer.class);
+            OrderSerializer.class);
 
         return props;
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, OrderProto.Order> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
+    public KafkaTemplate<String, OrderProto.Order> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

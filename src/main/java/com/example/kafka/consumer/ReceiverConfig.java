@@ -3,6 +3,8 @@ package com.example.kafka.consumer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.kafka.serializer.OrderDeserializer;
+import com.protobuf.order.OrderProto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +33,7 @@ public class ReceiverConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
             StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-            StringDeserializer.class);
+            OrderDeserializer.class);
         // allows a pool of processes to divide the work of consuming and processing records
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "helloworld");
         // automatically reset the offset to the earliest offset
@@ -41,13 +43,13 @@ public class ReceiverConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
+    public ConsumerFactory<String, OrderProto.Order> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, OrderProto.Order>> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, OrderProto.Order> factory =
             new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
 

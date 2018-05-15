@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.concurrent.TimeUnit;
 
+import com.protobuf.order.OrderProto;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +24,9 @@ public class SpringKafkaApplicationTest {
 
     private static final String HELLOWORLD_TOPIC = "helloworld.t";
 
-//    @ClassRule
-//    public static KafkaEmbedded embeddedKafka =
-//        new KafkaEmbedded(1, true, HELLOWORLD_TOPIC);
+    @ClassRule
+    public static KafkaEmbedded embeddedKafka =
+        new KafkaEmbedded(1, true, HELLOWORLD_TOPIC);
 
     @Autowired
     private Receiver receiver;
@@ -35,11 +36,17 @@ public class SpringKafkaApplicationTest {
 
     @Test
     public void testReceive() throws Exception {
-        sender.send(HELLOWORLD_TOPIC, "Hello Spring Kafka!");
+        OrderProto.Order.Builder builder = OrderProto.Order.newBuilder();
+        builder.setName("Anil Murasani");
+        builder.setOrderAddress("3150 Sabre Dr SouthLake Tx");
+        builder.setOrderId(1234);
+        OrderProto.Order protoOrder = builder.build();
+
+        sender.send(HELLOWORLD_TOPIC, protoOrder);
 
         receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         assertThat(receiver.getLatch().getCount()).isEqualTo(0);
-        assertThat(receiver.getPayload()).isEqualTo("Hello Spring Kafka!");
+        assertThat(receiver.getPayload()).isEqualTo(protoOrder);
     }
 }
 

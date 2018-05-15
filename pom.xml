@@ -46,6 +46,11 @@
       <version>${spring-kafka.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.example.protobuf</groupId>
+      <artifactId>protobuf-example</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
