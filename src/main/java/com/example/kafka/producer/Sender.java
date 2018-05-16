@@ -12,10 +12,10 @@ public class Sender {
         LoggerFactory.getLogger(Sender.class);
 
     @Autowired
-    private KafkaTemplate<String, OrderProto.Order> kafkaTemplate;
+    private KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public void send(String topic, OrderProto.Order payload) {
         LOGGER.info("sending payload='{}' to topic='{}'", payload, topic);
-        kafkaTemplate.send(topic, payload);
+        kafkaTemplate.send(topic, payload.toByteArray());
     }
 }

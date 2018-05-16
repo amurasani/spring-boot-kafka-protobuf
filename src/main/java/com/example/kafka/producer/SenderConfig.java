@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.kafka.serializer.OrderSerializer;
 import com.protobuf.order.OrderProto;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,18 +30,18 @@ public class SenderConfig {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
             StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-            OrderSerializer.class);
+            ByteArraySerializer.class);
 
         return props;
     }
 
     @Bean
-    public ProducerFactory<String, OrderProto.Order> producerFactory() {
+    public ProducerFactory<String, byte[]> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, OrderProto.Order> kafkaTemplate() {
+    public KafkaTemplate<String, byte[]> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
