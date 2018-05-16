@@ -1,10 +1,5 @@
 package com.example.kafka.producer;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.example.kafka.serializer.OrderSerializer;
-import com.protobuf.order.OrderProto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -14,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class SenderConfig {
