@@ -22,11 +22,11 @@ import com.example.kafka.producer.Sender;
 @DirtiesContext
 public class SpringKafkaApplicationTest {
 
-    private static final String HELLOWORLD_TOPIC = "helloworld.t";
+    private static final String ORDER_TOPIC = "order.t";
 
     @ClassRule
     public static KafkaEmbedded embeddedKafka =
-        new KafkaEmbedded(1, true, HELLOWORLD_TOPIC);
+        new KafkaEmbedded(1, true, ORDER_TOPIC);
 
     @Autowired
     private Receiver receiver;
@@ -42,7 +42,7 @@ public class SpringKafkaApplicationTest {
         builder.setOrderId(1234);
         OrderProto.Order protoOrder = builder.build();
 
-        sender.send(HELLOWORLD_TOPIC, protoOrder);
+        sender.send(ORDER_TOPIC, protoOrder);
 
         receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         assertThat(receiver.getLatch().getCount()).isEqualTo(0);

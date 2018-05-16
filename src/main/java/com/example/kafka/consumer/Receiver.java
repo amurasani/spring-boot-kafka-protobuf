@@ -24,7 +24,7 @@ public class Receiver {
         return payload;
     }
 
-    @KafkaListener(topics = "${kafka.topic.helloworld}")
+    @KafkaListener(topics = "${kafka.topic.order}")
     public void receive(OrderProto.Order payload) {
         LOGGER.info("received payload='{}'", payload);
         this.payload = payload;
