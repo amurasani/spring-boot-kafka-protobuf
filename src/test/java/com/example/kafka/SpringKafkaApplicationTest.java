@@ -42,7 +42,7 @@ public class SpringKafkaApplicationTest {
         builder.setOrderId(1234);
         OrderProto.Order protoOrder = builder.build();
 
-        sender.send(ORDER_TOPIC, protoOrder);
+        sender.send(ORDER_TOPIC, protoOrder.toByteArray());
 
         receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         assertThat(receiver.getLatch().getCount()).isEqualTo(0);
